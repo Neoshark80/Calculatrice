@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Start {
@@ -14,7 +15,12 @@ public class Start {
 			if (operationType <= 0 || operationType >= 6) {
 				System.out.println(
 						"Choisissez le type d'opération à réaliser en entrant son numéro: \n 1 pour une addition \n 2 pour une soustraction \n 3 pour une multiplication \n 4 pour une division \n 5 pour une division avec reste");
-				operationType = sc.nextInt();
+				try {
+					operationType = sc.nextInt();
+				} catch (InputMismatchException e) {
+					System.out.println("Veuillez entrer une valeur correspondant à une opération");
+					operationType = 0;
+				}
 			} else {
 				System.out.println("Veuillez entrer la 1ere valeur");
 				valeurUne = sc.nextInt();
