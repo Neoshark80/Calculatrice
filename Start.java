@@ -2,11 +2,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Start {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RetryException {
 		calculate();
 	}
 
-	public static void calculate() {
+	public static void calculate() throws RetryException {
 		Scanner sc = new Scanner(System.in);
 		int operationType = 0, valeurUne = 0, valeurDeux = 0;
 		char otherOperation = 'O';
@@ -15,19 +15,31 @@ public class Start {
 			if (operationType <= 0 || operationType >= 6) {
 				System.out.println(
 						"Choisissez le type d'opération à réaliser en entrant son numéro: \n 1 pour une addition \n 2 pour une soustraction \n 3 pour une multiplication \n 4 pour une division \n 5 pour une division avec reste");
-				//Quand je rentre une valeur qui n'est pas un int, le programme se met à envoyer en boucle infini le Sysout juste au dessus
 				try {
 					operationType = sc.nextInt();
 				} catch (InputMismatchException e) {
 					System.out.println("Veuillez entrer une valeur correspondant à une opération");
-					operationType = 0; /**J'ai rajouté cette ligne pour voir si cela changeait quelques chose, mais je ne pense pas,
-					elle n'est plus dans la version que j'ai conservé sur Eclipse*/
+					sc.next();
 				}
 			} else {
-				System.out.println("Veuillez entrer la 1ere valeur");
-				valeurUne = sc.nextInt();
-				System.out.println("Veuillez entrer la 2eme valeur");
-				valeurDeux = sc.nextInt();
+				while (valeurUne == 0) {
+					System.out.println("Veuillez entrer la 1ere valeur");
+					try {
+						valeurUne = sc.nextInt();
+					} catch (InputMismatchException e) {
+						System.out.println("Veuillez entrer une valeur numérique");
+						sc.next();
+					}
+				}
+				while (valeurDeux == 0) {
+					System.out.println("Veuillez entrer la 2eme valeur");
+					try {
+						valeurDeux = sc.nextInt();
+					} catch (InputMismatchException e) {
+						System.out.println("Veuillez entrer une valeur numérique");
+						sc.next();
+					}
+				}
 				switch (operationType) {
 				case 1:
 					System.out.println("La somme de " + valeurUne + " + " + valeurDeux + " fait "
@@ -61,10 +73,11 @@ public class Start {
 		retry(sc);
 	}
 
-	private static char retry(Scanner sc) {
+	private static char retry(Scanner sc) throws RetryException {
 		char otherOperation;
+		String retry = null;
 		System.out.println("Voulez-vous ré-essayer ? (O/N)");
-		String retry = sc.next();
+		retry = sc.next();
 		otherOperation = retry.charAt(0);
 		Character.toLowerCase(otherOperation);
 		return otherOperation;
