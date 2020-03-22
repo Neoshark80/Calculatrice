@@ -8,9 +8,9 @@ public class Start {
 	public static void calculate() {
 		Scanner sc = new Scanner(System.in);
 		int operationType = 0, valeurUne = 0, valeurDeux = 0;
-		String encore = "O";
+		char otherOperation = 'O';
 
-		while (encore == "O")
+		while (otherOperation == 'O')
 			if (operationType <= 0 || operationType >= 6) {
 				System.out.println(
 						"Choisissez le type d'opération à réaliser en entrant son numéro: \n 1 pour une addition \n 2 pour une soustraction \n 3 pour une multiplication \n 4 pour une division \n 5 pour une division avec reste");
@@ -46,17 +46,20 @@ public class Start {
 					System.out.println("Veuillez entrer une valeur correspondant à une opération");
 				}
 				operationType = 0;
-				System.out.println("Voulez vous effectuer une autre opération ? (O/N)");
-				sc.nextLine();
-				encore = sc.nextLine();
-				encore.toUpperCase();
+				retry(sc);
 			}
-		while (encore != "O" && encore != "N")
+		while (otherOperation != 'O' && otherOperation != 'N')
 			System.out.println("Je n'ai pas compris votre choix");
-		System.out.println("Voulez vous effectuer une autre opération ? (O/N)");
-		sc.nextLine();
-		encore = sc.nextLine();
-		encore.toUpperCase();
+		retry(sc);
+	}
+
+	private static char retry(Scanner sc) {
+		char otherOperation;
+		System.out.println("Voulez-vous ré-essayer ? (O/N)");
+		String retry = sc.next();
+		otherOperation = retry.charAt(0);
+		Character.toLowerCase(otherOperation);
+		return otherOperation;
 	}
 
 	private static int addition(int valeurUne, int valeurDeux) {
