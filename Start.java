@@ -5,100 +5,87 @@ public class Start {
 		calculate();
 	}
 
-	private static void calculate() {
-		char operationType = '\0', otherOperation = '\0';
-		double firstValue = 0, secondValue = 0;
+	public static void calculate() {
 		Scanner sc = new Scanner(System.in);
-		try {
-			do {
+		int operationType = 0, valeurUne = 0, valeurDeux = 0;
+		String encore = "O";
+
+		while (encore == "O")
+			if (operationType <= 0 || operationType >= 6) {
 				System.out.println(
-						"Choisissez votre opÈration: \n 1) Addition \n 2) Soustraction \n 3) Multiplication \n 4) Division \n 5) Division avec reste \n 6) Exposant");
-				operationType = sc.next().charAt(0);
+						"Choisissez le type d'op√©ration √† r√©aliser en entrant son num√©ro: \n 1 pour une addition \n 2 pour une soustraction \n 3 pour une multiplication \n 4 pour une division \n 5 pour une division avec reste");
+				operationType = sc.nextInt();
+			} else {
+				System.out.println("Veuillez entrer la 1ere valeur");
+				valeurUne = sc.nextInt();
+				System.out.println("Veuillez entrer la 2eme valeur");
+				valeurDeux = sc.nextInt();
 				switch (operationType) {
-				case '1':
-					firstValue = firstVariable(sc);
-					System.out.println("Saisissez la valeur ‡ ajouter ‡ " + firstValue);
-					secondValue = sc.nextDouble();
-					double resultAddition = firstValue + secondValue;
-					System.out.println(
-							"L'addition de " + firstValue + " et " + secondValue + " donne: " + resultAddition);
-					otherOperation = retry(sc);
+				case 1:
+					System.out.println("La somme de " + valeurUne + " + " + valeurDeux + " fait "
+							+ addition(valeurUne, valeurDeux));
 					break;
-				case '2':
-					firstValue = firstVariable(sc);
-					System.out.println("Saisissez la valeur ‡ soustraire ‡ " + firstValue);
-					secondValue = sc.nextDouble();
-					double resultSubtraction = firstValue - secondValue;
-					System.out.println(
-							"La soustraction de " + firstValue + " et " + secondValue + " donne: " + resultSubtraction);
-					otherOperation = retry(sc);
+				case 2:
+					System.out.println("Le reste de " + valeurUne + " - " + valeurDeux + " fait "
+							+ soustraction(valeurUne, valeurDeux));
 					break;
-				case '3':
-					firstValue = firstVariable(sc);
-					System.out.println("Saisissez la valeur ‡ multiplier par " + firstValue);
-					secondValue = sc.nextDouble();
-					double resultMultiplicate = firstValue * secondValue;
-					System.out.println("La multiplication de " + firstValue + " et " + secondValue + " donne: "
-							+ resultMultiplicate);
-					otherOperation = retry(sc);
+				case 3:
+					System.out.println("Le produit de " + valeurUne + " et " + valeurDeux + " fait "
+							+ multiplication(valeurUne, valeurDeux));
 					break;
-				case '4':
-					firstValue = firstVariable(sc);
-					System.out.println("Saisissez la valeur qui divisera " + firstValue);
-					secondValue = sc.nextDouble();
-					double resultDivision = firstValue / secondValue;
-					System.out.println(
-							"La division de " + firstValue + " et " + secondValue + " donne: " + resultDivision);
-					otherOperation = retry(sc);
+				case 4:
+					System.out.println("Le quotient de " + valeurUne + " et " + valeurDeux + " fait "
+							+ division(valeurUne, valeurDeux));
 					break;
-				case '5':
-					firstValue = firstVariable(sc);
-					System.out.println("Saisissez la valeur qui divisera en gardant le reste " + firstValue);
-					secondValue = sc.nextDouble();
-					double resultDivisionWithoutWork = firstValue / secondValue,
-							restOfDivisionWithoutWork = firstValue % secondValue;
-					int resultDivisionWithRest = (int) resultDivisionWithoutWork,
-							restOfDivision = (int) restOfDivisionWithoutWork;
-					System.out.println("La division de " + firstValue + " et " + secondValue + " donne: "
-							+ resultDivisionWithRest + " et il reste: " + restOfDivision);
-					otherOperation = retry(sc);
-					break;
-				case '6':
-					System.out.println("Saisissez une valeur");
-					firstValue = sc.nextDouble();
-					double resultOfExposant = firstValue * firstValue;
-					System.out.println("L'exposant de " + firstValue + " est Ègale ‡: " + resultOfExposant);
-					otherOperation = retry(sc);
+				case 5:
+					System.out.println("Le quotient de " + valeurUne + " et " + valeurDeux + " fait "
+							+ divisionAvecReste(valeurUne, valeurDeux) + " avec un reste de "
+							+ reste(valeurUne, valeurDeux));
 					break;
 				default:
-					System.out.println(
-							"Choisissez votre opÈration: \n 1) Addition \n 2) Soustraction \n 3) Multiplication \n 4) Division \n 5) Division avec reste \n 6) Exposant");
-					break;
+					System.out.println("Veuillez entrer une valeur correspondant √† une op√©ration");
 				}
-
-			} while (otherOperation == '\0' || otherOperation == 'o');
-		} catch (NumberFormatException e) {
-			System.out.println(
-					"Choisissez votre opÈration: \n 1) Addition \n 2) Soustraction \n 3) Multiplication \n 4) Division \n 5) Division avec reste \n 6) Exposant");
-		}
-		while (otherOperation == 'n') {
-			System.out.println("Au revoir");
-			sc.close();
-		}
+				operationType = 0;
+				System.out.println("Voulez vous effectuer une autre op√©ration ? (O/N)");
+				sc.nextLine();
+				encore = sc.nextLine();
+				encore.toUpperCase();
+			}
+		while (encore != "O" && encore != "N")
+			System.out.println("Je n'ai pas compris votre choix");
+		System.out.println("Voulez vous effectuer une autre op√©ration ? (O/N)");
+		sc.nextLine();
+		encore = sc.nextLine();
+		encore.toUpperCase();
 	}
 
-	private static char retry(Scanner sc) {
-		char otherOperation;
-		System.out.println("Voulez-vous rÈ-essayer ? (O/N)");
-		String retry = sc.next();
-		otherOperation = retry.charAt(0);
-		Character.toLowerCase(otherOperation);
-		return otherOperation;
+	private static int addition(int valeurUne, int valeurDeux) {
+		int resultAdd = valeurUne + valeurDeux;
+		return resultAdd;
 	}
 
-	private static double firstVariable(Scanner sc) {
-		System.out.println("Saisissez la premiËre valeur");
-		double firstValue = sc.nextDouble();
-		return firstValue;
+	private static int soustraction(int valeurUne, int valeurDeux) {
+		int resultLess = valeurUne - valeurDeux;
+		return resultLess;
+	}
+
+	private static int multiplication(int valeurUne, int valeurDeux) {
+		int resultMultiplicate = valeurUne * valeurDeux;
+		return resultMultiplicate;
+	}
+
+	private static double division(int valeurUne, int valeurDeux) {
+		double resultDivision = valeurUne / (double) valeurDeux;
+		return resultDivision;
+	}
+
+	private static int divisionAvecReste(int valeurUne, int valeurDeux) {
+		int resultDivision = valeurUne / valeurDeux;
+		return resultDivision;
+	}
+
+	private static int reste(int valeurUne, int valeurDeux) {
+		int rest = valeurUne % valeurDeux;
+		return rest;
 	}
 }
