@@ -2,16 +2,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Start {
-	public static void main(String[] args) throws RetryException {
+	public static void main(String[] args) {
 		calculate();
 	}
 
-	public static void calculate() throws RetryException {
+	public static void calculate() {
 		Scanner sc = new Scanner(System.in);
 		int operationType = 0, valeurUne = 0, valeurDeux = 0;
-		char otherOperation = 'O';
+		char moreOperation = 'O';
 
-		while (otherOperation == 'O')
+		while (moreOperation == 'O')
 			if (operationType <= 0 || operationType >= 6) {
 				System.out.println(
 						"Choisissez le type d'opération à réaliser en entrant son numéro: \n 1 pour une addition \n 2 pour une soustraction \n 3 pour une multiplication \n 4 pour une division \n 5 pour une division avec reste");
@@ -66,21 +66,26 @@ public class Start {
 					System.out.println("Veuillez entrer une valeur correspondant à une opération");
 				}
 				operationType = 0;
-				retry(sc);
+				valeurUne = 0;
+				valeurDeux = 0;
+				moreOperation = retry(sc);
+
+				while (moreOperation != 'O' && moreOperation != 'N')
+					moreOperation = retry(sc);
+				while (moreOperation == 'N')
+					System.out.println("Au revoir");
+				break;
 			}
-		while (otherOperation != 'O' && otherOperation != 'N')
-			System.out.println("Je n'ai pas compris votre choix");
-		retry(sc);
 	}
 
-	private static char retry(Scanner sc) throws RetryException {
-		char otherOperation;
+	private static char retry(Scanner sc) {
+		char otherOperation, otherOperation1;
 		String retry = null;
 		System.out.println("Voulez-vous ré-essayer ? (O/N)");
 		retry = sc.next();
 		otherOperation = retry.charAt(0);
-		Character.toLowerCase(otherOperation);
-		return otherOperation;
+		otherOperation1 = Character.toUpperCase(otherOperation);
+		return otherOperation1;
 	}
 
 	private static int addition(int valeurUne, int valeurDeux) {
