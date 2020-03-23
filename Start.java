@@ -72,9 +72,10 @@ public class Start {
 
 				while (moreOperation != 'O' && moreOperation != 'N')
 					moreOperation = retry(sc);
-				while (moreOperation == 'N')
+				if (moreOperation == 'N') {
 					System.out.println("Au revoir");
-				break;
+					break;
+				}
 			}
 	}
 
